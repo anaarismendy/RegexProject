@@ -5,42 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Registo</title>
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
+    <h1 id="tittle">Registro de Usuario</h1>
 
-    <h1>Registro de Usuario</h1>
+    <div id="form-container">
+        <form action="/registro" method="post">
 
-    <form action="/registro" method="post">
-        <label for="cedula">Cédula:</label><br>
-        <input type="text" id="cedula" name="cedula" required><br><br>
+            <label for="cedula">Cédula:</label><br>
+            <input type="text" id="cedula" name="cedula" required><br><br>
 
-        <label for="contrasena">Contraseña:</label><br>
-        <input type="password" id="contrasena" name="contrasena" required><br><br>
+            <label for="nombres">Nombres</label><br>
+            <input type="text" id="nombre" name="nombres" required><br><br>
 
-        <label for="confirmar_contrasena">Confirmar Contraseña:</label><br>
-        <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required><br><br>
+            <label for="nombres">Apellidos</label><br>
+            <input type="text" id="apellidos" name="apellidos" required><br><br>
 
-        <label for="celular">Número Celular:</label><br>
-        <input type="tel" id="celular" name="celular" required><br><br>
+            <label for="nombre_usuario">Nombre de Usuario:</label><br>
+            <input type="text" id="nombre_usuario" name="nombre_usuario" required><br><br>
 
-        <label for="email">Correo Electrónico:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+            <label for="celular">Número Celular:</label><br>
+            <input type="tel" id="celular" name="celular" required><br><br>
 
-        <label for="nombres_apellidos">Nombres y Apellidos:</label><br>
-        <input type="text" id="nombres_apellidos" name="nombres_apellidos" required><br><br>
+            <label for="email">Correo Electrónico:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
 
-        <label for="nombre_usuario">Nombre de Usuario:</label><br>
-        <input type="text" id="nombre_usuario" name="nombre_usuario" required><br><br>
+            <label for="direccion">Dirección:</label><br>
+            <input type="text" id="direccion" name="direccion" required><br><br>
 
-        <label for="direccion">Dirección:</label><br>
-        <input type="text" id="direccion" name="direccion" required><br><br>
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
 
-        <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
-        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
+            <label for="contrasena">Contraseña:</label><br>
+            <input type="password" id="contrasena" name="contrasena" required><br><br>
 
-        <input type="submit" value="Registrarse">
-    </form>
+            <label for="confirmar_contrasena">Confirmar Contraseña:</label><br>
+            <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required><br><br>
+
+            <input type="submit" value="Registrarse">
+        </form>
+    </div>
+    <script src="./js/index.js"></script>
 </body>
-
 </html>
