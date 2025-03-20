@@ -11,12 +11,11 @@
 <body>
     <h1 id="tittle">Registro de Usuario</h1>
 
-    
     <div id="form-container">
         <form action="/registro" method="post">
 
             <label for="cedula">Cédula:</label><br>
-            <input type="text" id="cedula" name="cedula" required><br><br>
+            <input type="text" id="cedula" name="cedula" required><br><br>   
 
             <label for="nombres">Nombres</label><br>
             <input type="text" id="nombre" name="nombres" required><br><br>
@@ -40,7 +39,8 @@
             <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
 
             <label for="contrasena">Contraseña:</label><br>
-            <input type="password" id="contrasena" name="contrasena" required><br><br>
+            <input type="password" id="contrasena" name="contrasena" required><br>
+            <span>la contraseña debe contener minimo 8 carácteres: 1 mayuscula, 1 minuscula, 1 especial, 1 número.</span><br><br>
 
             <label for="confirmar_contrasena">Confirmar Contraseña:</label><br>
             <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required><br><br>
