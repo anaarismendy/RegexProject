@@ -26,8 +26,17 @@ function isValidCedula(cedula){
     return /^(\d{6,11})$/.test(cedula);
 }
 function isValidNombre_Apellidos(nombre){
-    return /^(([a-zA-Z]+)|([a-zA-Z]+.[a-zA-Z]+))$/.test(nombre);
+    return /^(([a-zA-Z]+)|([a-zA-Z]+\s[a-zA-Z]+))$/.test(nombre);
 }
 function isValidNombre_usuario(nombre_usuario){
-    return /
+    return /^([a-z0-9-_.]{5,15})$/.test(nombre_usuario);
+}
+function isValidCelular(celular){
+    return /^(([+]\d{1,2}\s)?\d{3}\s\d{3}\s\d{2}\s\d{2})$/.test(celular);
+}
+function isValidEmail(email){
+    return /^(([a-zA-Z0-9]+[_\-.+%]?)+@([a-zA-Z0-9]+[_\-.]?)+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?)$/.test(email);
+}
+function isValidDireccion(direccion){
+    return //
 }
