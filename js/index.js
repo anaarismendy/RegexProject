@@ -1,5 +1,8 @@
 let cedulaInput, nombresInput, apellidosInput, nombre_usuarioInput, celularInput, emailInput, direccionInput, fecha_nacimientoInput, contrasenaInput, confirmar_contrasenaInput;
 window.onload = function(){
+
+
+    //Esto lo puedes resumir un poco (creo); Se ve muy extenso.
     cedulaInput = document.getElementById("cedula");
     nombresInput = document.getElementById("nombre");
     apellidosInput = document.getElementById("apellidos");
@@ -22,6 +25,9 @@ window.onload = function(){
     contrasenaInput.addEventListener("input", createListener(isValidContrasena));
     confirmar_contrasenaInput.addEventListener("input", createListener(isValidConfirmar_contrasena));
 };
+
+
+//No olvides agregar mensajes para cuando no cumpla las condiciones del regex. Eso lo haces con html y js  :)
 function isValidCedula(cedula){
     return /^(\d{6,11})$/.test(cedula);
 }
