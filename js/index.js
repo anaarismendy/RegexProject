@@ -1,82 +1,107 @@
-let inputs = {};
-
-window.onload = function () {
-    const ids = [
-        "cedula", "nombre", "apellidos", "nombre_usuario", "celular", 
-        "email", "direccion", "fecha_nacimiento", "contrasena", "confirmar_contrasena"
-    ];
-
-    // Asignar inputs y eventos
-    ids.forEach(id => {
-        inputs[id] = document.getElementById(id);
-        inputs[id].addEventListener("input", createListener(validators[id]));
-        inputs[id].addEventListener("keydown", handleEnterKey); // Evento para la tecla Enter
-    });
-
-    // Validación específica para confirmar contraseña
-    inputs.confirmar_contrasena.addEventListener("input", () => {
-        const valid = inputs.contrasena.value === inputs.confirmar_contrasena.value;
-        showOrHideTip(!valid, inputs.confirmar_contrasena.nextElementSibling, inputs.confirmar_contrasena);
-    });
-};
-
-// Validadores
 const validators = {
-    cedula: (cedula) => /^\d{6,11}$/.test(cedula),
-    nombre: (nombre) => /^([a-zA-ZÀ-ÿ]+|[a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+)$/.test(nombre),
-    apellidos: (apellidos) => /^([a-zA-ZÀ-ÿ\s]+\s[a-zA-ZÀ-ÿ\s]+)$/.test(apellidos),
-    nombre_usuario: (nombre_usuario) => /^[a-z0-9-_.]{5,15}$/.test(nombre_usuario),
-    celular: (celular) => /^([+]\d{1,2}\s)?\d{3}\s\d{3}\s\d{2}\s\d{2}$/.test(celular),
-    email: (email) => /^(([a-zA-Z0-9]+[_\-.+%]?)+@([a-zA-Z0-9]+[_\-.]?)+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?)$/.test(email),
-    direccion: (direccion) =>  /^([a-zA-Z]+\s\d{2,3}(\s[a-zA-Z]+(\s\d{2,3})?)?\s[A-Z]*(\s[a-zA-Z]+)?\s#\s\d{2}-\d{2})$/.test(direccion),
-    fecha_nacimiento: (fecha) => {
-        const regex = /^\d{2}[/-]\d{2}[/-]\d{4}$/;
-        if (!regex.test(fecha)) return false;
-        const fechaNacimiento = new Date(fecha);
+    nombres: (value) => /^([a-zA-ZÀ-ÿ]+|[a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+)$/.test(value),
+    cedula: (value) => /^\d{6,11}$/.test(value),
+    celular: (value) => /^([+]\d{1,2}\s)?\d{3}\s\d{3}\s\d{2}\s\d{2}$/.test(value),
+    fecha_nacimiento: (value) => {
         const hoy = new Date();
+        const fechaNacimiento = new Date(value);
         const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
         return edad >= 18; // Verifica si es mayor de edad
     },
-    contrasena: (contrasena) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(contrasena),
+    contrasena: (value) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&\.])[A-Za-z\d@$!%*?&\.]{8,}$/.test(value),
+    apellidos: (value) => /^([a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+)$/.test(value),
+    nombre_usuario: (value) => /^[a-z0-9-_.]{5,15}$/.test(value),
+    email: (value) => /^([a-zA-Z0-9]+[_\-.+%]?)+@([a-zA-Z0-9]+[_\-.]?)+\.[a-zA-Z]{3,}(\.[a-zA-Z]{2,})?$/.test(value),
+    direccion: (value) => /^([a-zA-Z]+\s\d{2,3}(\s[a-zA-Z]+(\s\d{2,3})?)?\s[a-zA-Z]*(\s[a-zA-Z]+)?\s#\s\d{2}-\d{2})$/.test(value),
+    confirmar_contrasena: (value) => {
+        const contrasena = document.getElementById("contrasena").value;
+        return value === contrasena;
+    }
 };
 
-// Listener genérico
-function createListener(validator) {
-    return (e) => {
-        const input = e.target;
-        const text = input.value;
-        const valid = validator(text);
-        const showTip = text !== "" && !valid;
-        const errorElement = input.nextElementSibling; // Accede al <span> de error
-        showOrHideTip(showTip, errorElement, input);
-    };
-}
+function validateField(input, validator) {
+    const value = input.value;
+    const isValid = validator(value);
+    const errorElement = input.nextElementSibling; // Accede al <p> de error
 
-// Función para manejar la tecla Enter
-function handleEnterKey(e) {
-    if (e.key === "Enter") {
-        const input = e.target;
-        const validator = validators[input.id];
-        const text = input.value;
-        const valid = validator(text);
-        const showTip = text !== "" && !valid;
-        const errorElement = input.nextElementSibling; // Accede al <span> de error
-        showOrHideTip(showTip, errorElement, input);
-
-        // Mostrar un mensaje adicional si la validación falla
-        if (!valid) {
-            alert(`Error en ${input.id}: ${errorElement.textContent}`);
-        }
-    }
-}
-
-// Mostrar u ocultar mensajes de error
-function showOrHideTip(show, element, input) {
-    if (show) {
-        element.style.display = "formulario__input-error"; // Muestra el mensaje de error
-        input.style.borderBottom = "2px solid #ff0000"; // Cambia el borde a color de error
+    if (value === "") {
+        errorElement.style.display = "none"; // Oculta el mensaje si el campo está vacío
+        input.style.borderBottom = "2px solid #00bfb2"; // Borde normal
+    } else if (!isValid) {
+        errorElement.style.display = "block"; // Muestra el mensaje de error
+        input.style.borderBottom = "2px solid #ff0000"; // Borde de error
     } else {
-        input.style.borderBottom = "2px solid #00bfb2"; // Cambia el borde a color normal
-        element.style.display = "none"; // Oculta el mensaje de error
+        errorElement.style.display = "none"; // Oculta el mensaje si es válido
+        input.style.borderBottom = "2px solid #00bfb2"; // Borde normal
     }
+    return isValid && value !== "";
 }
+
+
+function validateAllFields() {
+    const ids = [
+        "nombres", "cedula", "celular", "fecha_nacimiento", "contrasena",
+        "apellidos", "nombre_usuario", "email", "direccion", "confirmar_contrasena"
+    ];
+
+    let allValid = true; // Suponemos que todos los campos son válidos
+
+    ids.forEach(id => {
+        const input = document.getElementById(id);
+        const validator = validators[id];
+        const isValid = validateField(input, validator); // Valida el campo
+
+        if (!isValid) {
+            allValid = false; // Si algún campo no es válido, cambia a false
+        }
+    });
+
+    return allValid; // Devuelve si todos los campos son válidos
+}
+
+function showSuccessMessage() {
+    const successMessage = document.querySelector(".mensaje-exito");
+    successMessage.style.display = "block"; // Muestra el mensaje de éxito
+
+    // Oculta el mensaje después de 3 segundos
+    setTimeout(() => {
+        successMessage.style.display = "none";
+    }, 3000); // 3000 milisegundos = 3 segundos
+}
+
+window.onload = function () {
+    const ids = [
+        "nombres", "cedula", "celular", "fecha_nacimiento", "contrasena",
+        "apellidos", "nombre_usuario", "email", "direccion", "confirmar_contrasena"
+    ];
+
+    ids.forEach(id => {
+        const input = document.getElementById(id);
+        const validator = validators[id];
+
+        input.addEventListener("input", () => {
+            validateField(input, validator);
+        });
+
+        // Validación adicional para confirmar contraseña
+        if (id === "confirmar_contrasena") {
+            input.addEventListener("input", () => {
+                const isValid = input.value === document.getElementById("contrasena").value;
+                validateField(input, () => isValid);
+            });
+        }
+    });
+
+    // Validar todos los campos al presionar el botón "Registrarse"
+    const registerButton = document.querySelector("#button-container button");
+    registerButton.addEventListener("click", (e) => {
+        e.preventDefault(); // Evita el envío del formulario
+
+        const allFieldsValid = validateAllFields(); // Valida todos los campos
+
+        if (allFieldsValid) {
+            showSuccessMessage(); // Muestra el mensaje de éxito
+        }
+    });
+
+};
