@@ -23,12 +23,12 @@ window.onload = function () {
 // Validadores
 const validators = {
     cedula: (cedula) => /^\d{6,11}$/.test(cedula),
-    nombre: (nombre) => /^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$/.test(nombre),
-    apellidos: (apellidos) => /^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$/.test(apellidos),
+    nombre: (nombre) => /^([a-zA-ZÀ-ÿ]+|[a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+)$/.test(nombre),
+    apellidos: (apellidos) => /^([a-zA-ZÀ-ÿ\s]+\s[a-zA-ZÀ-ÿ\s]+)$/.test(apellidos),
     nombre_usuario: (nombre_usuario) => /^[a-z0-9-_.]{5,15}$/.test(nombre_usuario),
     celular: (celular) => /^([+]\d{1,2}\s)?\d{3}\s\d{3}\s\d{2}\s\d{2}$/.test(celular),
-    email: (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email),
-    direccion: (direccion) => /^[a-zA-Z]+\s\d{2,3}(\s[a-zA-Z]+(\s\d{2,3})?)?\s[A-Z]*(\s[a-zA-Z]+)?\s#\s\d{2}-\d{2}$/.test(direccion),
+    email: (email) => /^(([a-zA-Z0-9]+[_\-.+%]?)+@([a-zA-Z0-9]+[_\-.]?)+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?)$/.test(email),
+    direccion: (direccion) =>  /^([a-zA-Z]+\s\d{2,3}(\s[a-zA-Z]+(\s\d{2,3})?)?\s[A-Z]*(\s[a-zA-Z]+)?\s#\s\d{2}-\d{2})$/.test(direccion),
     fecha_nacimiento: (fecha) => {
         const regex = /^\d{2}[/-]\d{2}[/-]\d{4}$/;
         if (!regex.test(fecha)) return false;
@@ -73,8 +73,8 @@ function handleEnterKey(e) {
 // Mostrar u ocultar mensajes de error
 function showOrHideTip(show, element, input) {
     if (show) {
-        element.style.display = "inherit"; // Muestra el mensaje de error
-        input.style.borderBottom = "2px solid #dea54b"; // Cambia el borde a color de error
+        element.style.display = "formulario__input-error"; // Muestra el mensaje de error
+        input.style.borderBottom = "2px solid #ff0000"; // Cambia el borde a color de error
     } else {
         input.style.borderBottom = "2px solid #00bfb2"; // Cambia el borde a color normal
         element.style.display = "none"; // Oculta el mensaje de error
