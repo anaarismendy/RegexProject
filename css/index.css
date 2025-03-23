@@ -33,13 +33,15 @@ body {
     width: 500px;
     height: 525px;
     position: relative;
-    overflow: hidden; /* Asegura que la imagen no sobresalga */
+    overflow: hidden;
+    /* Asegura que la imagen no sobresalga */
 }
 
 #image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Hace que la imagen llene el contenedor sin deformarse */
+    object-fit: cover;
+    /* Hace que la imagen llene el contenedor sin deformarse */
     border-radius: 40px;
 }
 
@@ -70,10 +72,10 @@ input {
     height: 20px;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(90deg, rgba(139,139,139,0.4) 12%, rgba(247,239,239,0.4) 60%);
+    background: linear-gradient(90deg, rgba(139, 139, 139, 0.4) 12%, rgba(247, 239, 239, 0.4) 60%);
 }
 
-label{
+label {
     color: white;
     font-size: 16px;
 }
@@ -83,13 +85,14 @@ input[type="date" i] {
     font-size: 14px;
 }
 
-#button-container{
+#button-container {
     display: flex;
     justify-content: center;
     padding-top: 26px;
 }
-button{
-    background: #f7cc01;
+
+button {
+    background: #f39623;
     border: none;
     color: white;
     width: 130px;
