@@ -21,7 +21,8 @@
             <form action="/registro" method="post">
                 <p id="tittle">Registro</p>
                 <label for="cedula">Cédula:</label><br>
-                <input type="text" id="cedula" name="cedula" required><br><br>
+                <input type="text" id="cedula" name="cedula" placeholder="sin puntos ni espacios" required><br>
+                <p class="error-message">La cédula debe tener entre 6 y 11 dígitos.</p><br>
 
                 <label for="nombres">Nombres</label><br>
                 <input type="text" id="nombre" name="nombres" required><br><br>
@@ -30,10 +31,10 @@
                 <input type="text" id="apellidos" name="apellidos" required><br><br>
 
                 <label for="nombre_usuario">Nombre de Usuario:</label><br>
-                <input type="text" id="nombre_usuario" name="nombre_usuario" required><br><br>
+                <input type="text" id="nombre_usuario" name="nombre_usuario" placeholder="5-15 caracteres" required><br><br>
 
                 <label for="celular">Número Celular:</label><br>
-                <input type="tel" id="celular" name="celular" required><br><br>
+                <input type="tel" id="celular" name="celular" placeholder="+57 000 000 00 00" required><br><br>
 
                 <label for="email">Correo Electrónico:</label><br>
                 <input type="email" id="email" name="email" required><br><br>
@@ -44,9 +45,9 @@
                 <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
 
-            <label for="contrasena">Contraseña:</label><br>
-            <input type="password" id="contrasena" name="contrasena" required><br>
-            <span>la contraseña debe contener minimo 8 carácteres: 1 mayuscula, 1 minuscula, 1 especial, 1 número.</span><br><br>
+                <label for="contrasena">Contraseña:</label><br>
+                <input type="password" id="contrasena" name="contrasena" placeholder=">8 carácteres: 1MAY, 1min, 1esp, 1núm" required><br>
+                <span>la contraseña debe contener minimo 8 carácteres: 1 mayuscula, 1 minuscula, 1 especial, 1 número.</span><br><br>
 
                 <label for="confirmar_contrasena">Confirmar Contraseña:</label><br>
                 <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required><br><br>

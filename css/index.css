@@ -35,3 +35,15 @@ body {
     right: 100px;
     border-radius: 40px;
 }
+
+.error-message {
+    /* display: none; */
+    color: #000000; 
+    font-size: 0.9em;
+    margin-top: 5px; 
+    margin-bottom: 0;
+}
+
+.error-message-activo{
+    display: block;
+}

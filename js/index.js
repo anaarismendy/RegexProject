@@ -1,48 +1,82 @@
-let cedulaInput, nombresInput, apellidosInput, nombre_usuarioInput, celularInput, emailInput, direccionInput, fecha_nacimientoInput, contrasenaInput, confirmar_contrasenaInput;
-window.onload = function(){
+let inputs = {};
 
+window.onload = function () {
+    const ids = [
+        "cedula", "nombre", "apellidos", "nombre_usuario", "celular", 
+        "email", "direccion", "fecha_nacimiento", "contrasena", "confirmar_contrasena"
+    ];
 
-    //Esto lo puedes resumir un poco (creo); Se ve muy extenso.
-    cedulaInput = document.getElementById("cedula");
-    nombresInput = document.getElementById("nombre");
-    apellidosInput = document.getElementById("apellidos");
-    nombre_usuarioInput = document.getElementById("nombre_usuario");
-    celularInput = document.getElementById("celular");
-    emailInput = document.getElementById("email");
-    direccionInput = document.getElementById("direccion");
-    fecha_nacimientoInput = document.getElementById("fecha_nacimiento");
-    contrasenaInput = document.getElementById("contrasena");
-    confirmar_contrasenaInput = document.getElementById("confirmar_contrasena");
+    // Asignar inputs y eventos
+    ids.forEach(id => {
+        inputs[id] = document.getElementById(id);
+        inputs[id].addEventListener("input", createListener(validators[id]));
+        inputs[id].addEventListener("keydown", handleEnterKey); // Evento para la tecla Enter
+    });
 
-    cedulaInput.addEventListener("input", createListener(isValidCedula));
-    nombresInput.addEventListener("input", createListener(isValidNombre_Apellidos));
-    apellidosInput.addEventListener("input", createListener(isValidNombre_Apellidos));
-    nombre_usuarioInput.addEventListener("input", createListener(isValidNombre_usuario));
-    celularInput.addEventListener("input", createListener(isValidCelular));
-    emailInput.addEventListener("input", createListener(isValidEmail));
-    direccionInput.addEventListener("input", createListener(isValidDireccion));
-    fecha_nacimientoInput.addEventListener("input", createListener(isValidFecha_nacimiento));
-    contrasenaInput.addEventListener("input", createListener(isValidContrasena));
-    confirmar_contrasenaInput.addEventListener("input", createListener(isValidConfirmar_contrasena));
+    // Validación específica para confirmar contraseña
+    inputs.confirmar_contrasena.addEventListener("input", () => {
+        const valid = inputs.contrasena.value === inputs.confirmar_contrasena.value;
+        showOrHideTip(!valid, inputs.confirmar_contrasena.nextElementSibling, inputs.confirmar_contrasena);
+    });
 };
 
+// Validadores
+const validators = {
+    cedula: (cedula) => /^\d{6,11}$/.test(cedula),
+    nombre: (nombre) => /^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$/.test(nombre),
+    apellidos: (apellidos) => /^([a-zA-Z]+|[a-zA-Z]+\s[a-zA-Z]+)$/.test(apellidos),
+    nombre_usuario: (nombre_usuario) => /^[a-z0-9-_.]{5,15}$/.test(nombre_usuario),
+    celular: (celular) => /^([+]\d{1,2}\s)?\d{3}\s\d{3}\s\d{2}\s\d{2}$/.test(celular),
+    email: (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email),
+    direccion: (direccion) => /^[a-zA-Z]+\s\d{2,3}(\s[a-zA-Z]+(\s\d{2,3})?)?\s[A-Z]*(\s[a-zA-Z]+)?\s#\s\d{2}-\d{2}$/.test(direccion),
+    fecha_nacimiento: (fecha) => {
+        const regex = /^\d{2}[/-]\d{2}[/-]\d{4}$/;
+        if (!regex.test(fecha)) return false;
+        const fechaNacimiento = new Date(fecha);
+        const hoy = new Date();
+        const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        return edad >= 18; // Verifica si es mayor de edad
+    },
+    contrasena: (contrasena) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(contrasena),
+};
 
-//No olvides agregar mensajes para cuando no cumpla las condiciones del regex. Eso lo haces con html y js  :)
-function isValidCedula(cedula){
-    return /^(\d{6,11})$/.test(cedula);
+// Listener genérico
+function createListener(validator) {
+    return (e) => {
+        const input = e.target;
+        const text = input.value;
+        const valid = validator(text);
+        const showTip = text !== "" && !valid;
+        const errorElement = input.nextElementSibling; // Accede al <span> de error
+        showOrHideTip(showTip, errorElement, input);
+    };
 }
-function isValidNombre_Apellidos(nombre){
-    return /^(([a-zA-Z]+)|([a-zA-Z]+\s[a-zA-Z]+))$/.test(nombre);
+
+// Función para manejar la tecla Enter
+function handleEnterKey(e) {
+    if (e.key === "Enter") {
+        const input = e.target;
+        const validator = validators[input.id];
+        const text = input.value;
+        const valid = validator(text);
+        const showTip = text !== "" && !valid;
+        const errorElement = input.nextElementSibling; // Accede al <span> de error
+        showOrHideTip(showTip, errorElement, input);
+
+        // Mostrar un mensaje adicional si la validación falla
+        if (!valid) {
+            alert(`Error en ${input.id}: ${errorElement.textContent}`);
+        }
+    }
 }
-function isValidNombre_usuario(nombre_usuario){
-    return /^([a-z0-9-_.]{5,15})$/.test(nombre_usuario);
-}
-function isValidCelular(celular){
-    return /^(([+]\d{1,2}\s)?\d{3}\s\d{3}\s\d{2}\s\d{2})$/.test(celular);
-}
-function isValidEmail(email){
-    return /^(([a-zA-Z0-9]+[_\-.+%]?)+@([a-zA-Z0-9]+[_\-.]?)+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?)$/.test(email);
-}
-function isValidDireccion(direccion){
-    return //
+
+// Mostrar u ocultar mensajes de error
+function showOrHideTip(show, element, input) {
+    if (show) {
+        element.style.display = "inherit"; // Muestra el mensaje de error
+        input.style.borderBottom = "2px solid #dea54b"; // Cambia el borde a color de error
+    } else {
+        input.style.borderBottom = "2px solid #00bfb2"; // Cambia el borde a color normal
+        element.style.display = "none"; // Oculta el mensaje de error
+    }
 }
