@@ -1,7 +1,7 @@
 const validators = {
     nombres: (value) => /^([a-zA-ZÀ-ÿ]+|[a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+)$/.test(value),
     cedula: (value) => /^\d{6,11}$/.test(value),
-    celular: (value) => /^([+]\d{1,2}\s)?\d{3}\s\d{3}\s\d{2}\s\d{2}$/.test(value),
+    celular: (value) => /^3\d{2}(\s?\d{2,3}){3}$/.test(value),
     fecha_nacimiento: (value) => {
         const hoy = new Date();
         const fechaNacimiento = new Date(value);
@@ -12,7 +12,7 @@ const validators = {
     apellidos: (value) => /^([a-zA-ZÀ-ÿ]+\s[a-zA-ZÀ-ÿ]+)$/.test(value),
     nombre_usuario: (value) => /^[a-z0-9-_.]{5,15}$/.test(value),
     email: (value) => /^([a-zA-Z0-9]+[_\-.+%]?)+@([a-zA-Z0-9]+[_\-.]?)+\.[a-zA-Z]{3,}(\.[a-zA-Z]{2,})?$/.test(value),
-    direccion: (value) => /^([a-zA-Z]+\s\d{2,3}(\s[a-zA-Z]+(\s\d{2,3})?)?\s[a-zA-Z]*(\s[a-zA-Z]+)?\s#\s\d{2}-\d{2})$/.test(value),
+    direccion: (value) => /^(Calle|Cll|Carrera|Cra|Avenida|Av|Transversal|Tv|Diagonal|Dg)\s\d+[A-Z]{0,2}\s?(Bis)?\s?(Norte|Sur|Este|Oeste)?\s?#\s?\d+-\d+$/i.test(value),
     confirmar_contrasena: (value) => {
         const contrasena = document.getElementById("contrasena").value;
         return value === contrasena;
@@ -100,7 +100,8 @@ window.onload = function () {
         const allFieldsValid = validateAllFields(); // Valida todos los campos
 
         if (allFieldsValid) {
-            showSuccessMessage(); // Muestra el mensaje de éxito
+            //showSuccessMessage(); // Muestra el mensaje de éxito
+            window.location.href = "../html/log_in.html";
         }
     });
 
